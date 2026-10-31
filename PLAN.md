@@ -21,17 +21,39 @@ A private phone app for a daily check-in on dysregulation, emotional constipatio
 | Symptom input | 0–3 intensity taps (none / mild / moderate / strong) |
 | Storage | On-device only (IndexedDB), with export/import files for backup |
 | Insights | Stats and correlations run locally; optional AI analysis of notes with Claude |
+| Symptoms | Overlapping ones merged: 13 → 11 |
+| Check-ins | At least once a day, as many more as you like (timestamped) |
+| Reminders | 3× a day: morning, midday, evening |
 
-## Daily check-in (one screen)
+## Symptoms (11, merged from the spreadsheet's 13)
 
-1. **"All good today"** button: logs every symptom as 0 in one tap.
-2. **Symptoms**: 13 rows, each with 4 tap targets (0–3). The defaults are the spreadsheet's 13 symptoms. You can rename, reorder, hide or add your own.
-   - Overactive bladder, Can't relax, Highly irritable, Threatened, Unexplained tiredness, Bloated, Lack of safety, Bad memory, Eye irritation, Focused on body issues, Brain fog, Disconnected from emotions, Anxiety
-3. **Sleep**: 1–5 quality rating, optional wake time, optional "woke up to pee ×N".
+| Symptom | Merged from |
+|---|---|
+| Anxiety | |
+| Can't relax | |
+| Highly irritable | |
+| Unsafe / threatened | Threatened + Lack of safety |
+| Disconnected from emotions | |
+| Brain fog / forgetful | Brain fog + Bad memory |
+| Unexplained tiredness | |
+| Focused on body issues | |
+| Overactive bladder | |
+| Bloated | |
+| Eye irritation | |
+
+*Anxiety* and *Can't relax* stay separate. One is worry, the other is body tension, and they can come apart. You can rename, reorder, hide or add symptoms in Settings.
+
+## Check-ins (one screen, as many per day as you like)
+
+Each check-in is timestamped. A day's summary takes the **peak** intensity of each symptom across that day's check-ins. The **load score** is the sum of those peaks.
+
+1. **"All good right now"** button: logs every symptom as 0 in one tap.
+2. **Symptoms**: 11 rows, each with 4 tap targets (0–3).
+3. **Sleep** (once per day, shown on the first check-in of the day): 1–5 quality rating, wake time, number of times you got up at night.
 4. **Triggers/context tags**: multi-select chips (Work, Family, Kids, Partner, Health/illness, Sleep, Conflict, Social, Money). You can add your own.
 5. **Release**: a toggle for "had a cry / vented / let it out".
 6. **Note**: free text.
-7. Opening a day that's already logged edits it. You can also back-fill earlier days.
+7. Today's earlier check-ins are listed under the form and can be edited or deleted. You can back-fill past days.
 
 ## Screens
 
@@ -63,21 +85,21 @@ A private phone app for a daily check-in on dysregulation, emotional constipatio
 ## Data model (IndexedDB via Dexie)
 
 ```ts
-Entry {
-  date: string;            // YYYY-MM-DD, primary key (one entry per day)
+CheckIn {
+  id: string;
+  at: number;              // timestamp
+  date: string;            // YYYY-MM-DD (indexed)
   symptoms: Record<symptomId, 0|1|2|3>;
-  sleepQuality?: 1..5;
-  wakeTime?: string;       // HH:MM
-  nightWakings?: number;
   tags: tagId[];
   release: boolean;
   note: string;
-  createdAt, updatedAt: number;
+  updatedAt: number;
 }
+Sleep { date (PK), quality: 1..5, wakeTime?: string, nightWakings?: number }
 Symptom  { id, label, order, hidden }
 Tag      { id, label, order, hidden }
 Reflection { id, weekStart, text, createdAt }   // saved AI output
-Settings { reminderTime?, apiKey?, ... }
+Settings { reminderTimes: ["08:00","13:00","20:00"], apiKey?, ... }
 ```
 
 ## Tech stack
@@ -89,12 +111,15 @@ Settings { reminderTime?, apiKey?, ... }
 - Insight maths as pure functions in TypeScript, unit-tested with Vitest
 - Hosted for free on GitHub Pages. It's a static site, so your data never touches the host.
 
-## Reminders
+## Reminders (3× a day)
 
-PWA notifications are limited, especially on iOS. That means two things:
+The defaults are 08:00 (morning, includes sleep), 13:00 (midday) and 20:00 (evening). You can change them in Settings.
 
-- A daily local notification where the platform supports it.
-- A fallback: add a phone calendar/alarm reminder that opens the app's URL.
+A web app can't reliably schedule notifications by itself while it's closed. It would need a push server, and that clashes with keeping everything on-device. So:
+
+- **Main route**: Settings creates a calendar file (`.ics`) with three daily repeating events at your times. Each event links to the app. Your phone's calendar then does the reliable reminding.
+- **Bonus**: while the app is open or in the background, it shows a notification at each reminder time, where the platform allows.
+- The app also shows which of today's three slots you've already checked in for.
 
 ## Milestones
 
@@ -105,8 +130,3 @@ PWA notifications are limited, especially on iOS. That means two things:
 5. **Insights tier 1 and tier 2**.
 6. **AI tier 3**: API key setting, weekly reflection, tag suggestions.
 
-## Open questions
-
-- Keep the 13 symptoms as they are, or trim or merge some (e.g. "Threatened" and "Lack of safety")?
-- Should one check-in per day be enough, or do you want optional extra "moment" logs during the day?
-- What reminder time suits you?
