@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import Today from './screens/Today';
 import History from './screens/History';
 import Placeholder from './screens/Placeholder';
+import InstallCard from './components/InstallCard';
 import { toDateKey } from './lib/dates';
 
 type Tab = 'today' | 'history' | 'insights' | 'settings';
@@ -42,10 +43,13 @@ export default function App() {
           </Placeholder>
         )}
         {tab === 'settings' && (
-          <Placeholder title="Settings">
-            Editing symptoms and tags, reminders (3× a day), export/import and the spreadsheet import are coming in
-            the next milestones. Your data is stored only on this device.
-          </Placeholder>
+          <>
+            <Placeholder title="Settings">
+              Editing symptoms and tags, reminders (3× a day), export/import and the spreadsheet import are coming
+              in the next milestones. Your data is stored only on this device.
+            </Placeholder>
+            <InstallCard />
+          </>
         )}
       </main>
       <nav className="tabbar" aria-label="Main">

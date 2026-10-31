@@ -622,3 +622,17 @@ textarea {
     font-size: 0.7rem;
   }
 }
+
+.steps {
+  margin: 8px 0 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 4px;
+}
+.card .btn.primary {
+  margin-top: 12px;
+  width: 100%;
+}
+.card h2 + p {
+  margin: 6px 0 0;
+}
