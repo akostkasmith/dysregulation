@@ -30,5 +30,11 @@ export function formatDayLabel(date: string, today = toDateKey(new Date())): str
   const yest = new Date();
   yest.setDate(yest.getDate() - 1);
   if (date === toDateKey(yest)) return 'Yesterday';
-  return dt.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  const sameYear = y === new Date().getFullYear();
+  return dt.toLocaleDateString(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    ...(sameYear ? {} : { year: 'numeric' }),
+  });
 }

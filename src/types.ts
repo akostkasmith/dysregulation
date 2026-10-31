@@ -39,5 +39,7 @@ export interface Settings {
   reminderTimes: string[];
   /** Show a notification at reminder times while the app is open or in the background. */
   notify?: boolean;
+  /** When the user last saved a backup file. */
+  lastBackupAt?: number;
   apiKey?: string;
 }

@@ -2,6 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 import ReminderCard from '../components/ReminderCard';
 import InstallCard from '../components/InstallCard';
+import DataCard from '../components/DataCard';
 
 export default function Settings() {
   const settings = useLiveQuery(() => db.settings.get('settings'), []);
@@ -12,10 +13,10 @@ export default function Settings() {
         <h1>Settings</h1>
       </header>
       <ReminderCard settings={settings} />
+      <DataCard lastBackupAt={settings.lastBackupAt} />
       <InstallCard />
       <section className="card muted-text">
-        Coming next: editing symptoms and tags, export/import, and importing your old spreadsheet. Your data is
-        stored only on this device.
+        Coming next: editing symptoms and tags. Your data is stored only on this device.
       </section>
     </>
   );

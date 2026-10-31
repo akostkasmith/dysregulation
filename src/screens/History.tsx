@@ -43,7 +43,7 @@ export default function History({ onOpenDay }: { onOpenDay: (date: string) => vo
                     <span style={{ width: `${(d.load / maxLoad) * 100}%` }} />
                   </span>
                   <span className="day-meta">
-                    load {d.load} · {d.count}×{s?.quality ? ` · sleep ${QUALITY[s.quality - 1].toLowerCase()}` : ''}
+                    {Object.keys(d.peaks).length ? `load ${d.load}` : 'note only'} · {d.count}×{s?.quality ? ` · sleep ${QUALITY[s.quality - 1].toLowerCase()}` : ''}
                     {d.release ? ' · release' : ''}
                   </span>
                 </button>

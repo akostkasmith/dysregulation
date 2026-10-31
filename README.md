@@ -23,7 +23,7 @@ One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 
 - [x] Milestone 1: check-in screen (11 symptoms 0–3, sleep, tags, release, note), several check-ins per day, morning/midday/evening slot tracking, edit/delete, back-fill past days, simple history list
 - [ ] Milestone 2: calendar heatmap
-- [ ] Milestone 3: export/import and spreadsheet import
+- [x] Milestone 3: backup (JSON) / restore with merge, CSV export, backup nudge, old spreadsheet converted to a backup file
 - [x] Milestone 4a: installable PWA, works offline, GitHub Pages deploy
 - [x] Milestone 4b: 3× daily reminders (editable times, calendar file / Google Calendar links, optional in-app notifications)
 - [ ] Milestone 5: insights (trends and correlations)

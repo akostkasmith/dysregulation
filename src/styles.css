@@ -520,7 +520,7 @@ textarea {
 .day-row {
   width: 100%;
   display: grid;
-  grid-template-columns: 7.5rem 1fr;
+  grid-template-columns: 8.5rem 1fr;
   grid-template-areas: 'name bar' 'name meta';
   column-gap: 12px;
   align-items: center;
@@ -671,4 +671,54 @@ a.chip {
   text-decoration: none;
   color: var(--text);
   font-size: 0.9rem;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.btn-row .btn {
+  flex: 1 1 10rem;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.confirm {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+.confirm p {
+  margin: 0;
+}
+.confirm ul {
+  margin: 8px 0;
+  padding-left: 1.25rem;
+}
+.msg {
+  margin: 12px 0 0;
+  font-weight: 600;
+}
+.msg.ok {
+  color: var(--accent);
+}
+.msg.error {
+  color: var(--danger);
+}
+.nudge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-color: var(--accent);
+}
+.nudge .btn-row {
+  flex-wrap: nowrap;
+}
+.nudge .btn {
+  flex: 1 1 0;
+  min-height: 40px;
 }

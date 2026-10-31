@@ -4,6 +4,7 @@ import { db, newId } from '../db';
 import type { CheckIn, Intensity } from '../types';
 import IntensityRow from '../components/IntensityRow';
 import SleepCard from '../components/SleepCard';
+import BackupNudge from '../components/BackupNudge';
 import { formatDayLabel, fromDateAndTime, toDateKey, toTimeString } from '../lib/dates';
 import { slotsCovered, summarizeDay } from '../lib/summary';
 import { slotName } from '../lib/reminders';
@@ -150,6 +151,7 @@ export default function Today({ date, onDateChange }: { date: string; onDateChan
         </ul>
       </header>
 
+      {isToday && <BackupNudge lastBackupAt={settings.lastBackupAt} />}
       <SleepCard key={date} date={date} sleep={sleep} />
 
       <section className="card">
@@ -255,7 +257,7 @@ export default function Today({ date, onDateChange }: { date: string; onDateChan
                     <span className="entry-time">{toTimeString(c.at)}</span>
                     <span className="entry-body">
                       {top.length === 0 ? (
-                        <span className="muted-text">All good</span>
+                        <span className="muted-text">{Object.keys(c.symptoms).length ? 'All good' : 'Note only'}</span>
                       ) : (
                         top.map(([id, v]) => (
                           <span key={id} className={`pill lvl-${v}`}>
