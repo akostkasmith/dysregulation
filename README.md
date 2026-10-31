@@ -25,6 +25,6 @@ One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
 - [ ] Milestone 2: calendar heatmap
 - [ ] Milestone 3: export/import and spreadsheet import
 - [x] Milestone 4a: installable PWA, works offline, GitHub Pages deploy
-- [ ] Milestone 4b: 3× daily reminders
+- [x] Milestone 4b: 3× daily reminders (editable times, calendar file / Google Calendar links, optional in-app notifications)
 - [ ] Milestone 5: insights (trends and correlations)
 - [ ] Milestone 6: AI note analysis

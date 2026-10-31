@@ -37,5 +37,7 @@ export interface Sleep {
 export interface Settings {
   id: 'settings';
   reminderTimes: string[];
+  /** Show a notification at reminder times while the app is open or in the background. */
+  notify?: boolean;
   apiKey?: string;
 }

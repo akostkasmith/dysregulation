@@ -6,8 +6,7 @@ import IntensityRow from '../components/IntensityRow';
 import SleepCard from '../components/SleepCard';
 import { formatDayLabel, fromDateAndTime, toDateKey, toTimeString } from '../lib/dates';
 import { slotsCovered, summarizeDay } from '../lib/summary';
-
-const SLOT_NAMES = ['Morning', 'Midday', 'Evening'];
+import { slotName } from '../lib/reminders';
 
 interface Draft {
   id?: string;
@@ -144,7 +143,7 @@ export default function Today({ date, onDateChange }: { date: string; onDateChan
           {settings.reminderTimes.map((t, i) => (
             <li key={t} className={covered[i] ? 'slot done' : 'slot'}>
               <span className="dot" aria-hidden />
-              {SLOT_NAMES[i] ?? t}
+              {slotName(i)}
               <span className="sr-only">{covered[i] ? ' done' : ' not yet'}</span>
             </li>
           ))}
